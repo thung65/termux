@@ -17,7 +17,9 @@ echo -e '\e[1;37mSetting up Pulseaudio...\e[0m'
 export PULSE_SERVER=127.0.0.1
 clear
 echo -e '\e[1;37mDownloading file...\e[0m'
-cd /storage/emulated/0/Documents/VectrasVM/roms/fftv831x20/
+mkdir /storage/emulated/0/VM
+chmod +rwx /storage/emulated/0/VM
+cd /storage/emulated/0/VM
 wget -O a.7z http://192.168.0.106:5000/7.7z
 7z x a.7z
 rm a.7z
