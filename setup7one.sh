@@ -32,7 +32,7 @@ echo -e '\e[1;37mJust a sec...\e[0m'
 cd /data/data/com.termux/files/usr/var/lib/proot-distro/installed-rootfs/debian/root
 curl -o "setup"$setname".sh" https://raw.githubusercontent.com/AnBui2004/termux/refs/heads/main/setup"$setname"two.sh
 chmod +rwx "setup"$setname".sh"
-echo 'qemu-system-x86_64 -m 2G -smp 4 -cpu core2duo,+avx,+avx2,+sse4.2 -drive file=/storage/emulated/0/VM/W7F.qcow2,if=virtio,aio=threads,cache=unsafe -netdev user,id=n1 -device e1000,netdev=n1 -usb -device usb-tablet -device usb-kbd -device qxl-vga,vgamem_mb=512 -device intel-hda -device hda-duplex -accel tcg,thread=multi,tb-size=2048 -vnc :2' > "start"$setname"vm.sh"
+echo 'qemu-system-x86_64 -m 2G -smp 4 -cpu core2duo,+avx,+avx2,+sse4.2 -drive file=/storage/emulated/0/VM/W7F.qcow2,if=virtio,aio=threads,cache=unsafe -netdev user,id=n1 -device e1000,netdev=n1 -usb -device usb-tablet -device usb-kbd -device qxl-vga,vgamem_mb=512 -device intel-ac97 -device hda-duplex -accel tcg,thread=multi,tb-size=2048 -vnc :2' > "start"$setname"vm.sh"
 chmod +rwx "start"$setname"vm.sh"
 cd ../
 echo "/root/setup"$setname".sh" >> ./etc/profile
