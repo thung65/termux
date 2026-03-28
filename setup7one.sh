@@ -11,19 +11,14 @@ fi
 apt update
 apt upgrade -y
 apt install x11-repo -y
-apt install proot-distro p7zip wget pulseaudio -y
+apt install proot-distro p7zip wget pulseaudio curl -y
 clear
 echo -e '\e[1;37mSetting up Pulseaudio...\e[0m'
 export PULSE_SERVER=127.0.0.1
 clear
-echo -e '\e[1;37mDownloading file...\e[0m'
-mkdir /storage/emulated/0/VM
+echo -e '\e[1;37mChecking VM folder...\e[0m'
+mkdir -p /storage/emulated/0/VM
 chmod +rwx /storage/emulated/0/VM
-cd /storage/emulated/0/VM
-wget -O a.7z https://archive.org/download/windows-7.7z_202501nbab/Windows%207.7z
-7z x a.7z
-rm a.7z
-cd
 clear
 echo -e '\e[1;37mInstalling Debian...\e[0m'
 proot-distro install debian
@@ -32,14 +27,14 @@ echo -e '\e[1;37mJust a sec...\e[0m'
 cd /data/data/com.termux/files/usr/var/lib/proot-distro/installed-rootfs/debian/root
 curl -o "setup"$setname".sh" https://raw.githubusercontent.com/AnBui2004/termux/refs/heads/main/setup"$setname"two.sh
 chmod +rwx "setup"$setname".sh"
-echo 'qemu-system-x86_64 -usb -device usb-tablet -device usb-kbd -cpu qemu64,+avx,+avx2,+sse,+sse2,+sse4.1,+sse4.2 -smp sockets=1,cores=4,threads=1 -overcommit mem-lock=off -m 4096M,slots=4,maxmem=4097M -object memory-backend-ram,size=1024M,id=m0 -numa node,nodeid=0,memdev=m0,cpus=0 -object memory-backend-ram,size=1024M,id=m1 -numa node,nodeid=1,memdev=m1,cpus=1 -object memory-backend-ram,size=1024M,id=m2 -numa node,nodeid=2,memdev=m2,cpus=2 -object memory-backend-ram,size=1024M,id=m3 -numa node,nodeid=3,memdev=m3,cpus=3 -drive file=/storage/emulated/0/VM/W7F.qcow2,aio=threads,cache=unsafe -device qxl-vga,vgamem_mb=128 -device intel-hda -device hda-duplex -device e1000,netdev=n0 -netdev user,id=n0 -accel tcg,thread=multi,tb-size=2048 -vnc :2' > "start"$setname"vm.sh"
+echo 'qemu-system-x86_64 -M q35 -usb -device usb-tablet -device usb-kbd -cpu max,hv_relaxed,hv_spinlocks=0x1fff,hv_vapic,hv_time -smp sockets=1,cores=4,threads=1 -overcommit mem-lock=off -m 2048M -drive file=/storage/emulated/0/VM/W77600.vhd,format=vpc,if=ide,aio=threads,cache=unsafe -device qxl-vga,vgamem_mb=128 -device intel-hda -device hda-duplex -netdev user,id=n0 -device rtl8139,netdev=n0 -accel tcg,thread=multi,tb-size=512 -vnc :2' > "start"$setname"vm.sh"
 chmod +rwx "start"$setname"vm.sh"
 cd ../
 echo "/root/setup"$setname".sh" >> ./etc/profile
 cd
 echo 'sed -i '/start"$setname"/d' /data/data/com.termux/files/usr/var/lib/proot-distro/installed-rootfs/debian/etc/profile' > "start"$setname".sh"
 echo 'pulseaudio --start --load="module-native-protocol-tcp auth-ip-acl=127.0.0.1 auth-anonymous=1" --exit-idle-time=-1' >> start"$setname".sh
-echo 'echo '/root/start"$setname".sh' >> /data/data/com.termux/files/usr/var/lib/proot-distro/installed-rootfs/debian/etc/profile' >> start"$setname".sh
+echo 'echo '/root/start"$setname"vm.sh' >> /data/data/com.termux/files/usr/var/lib/proot-distro/installed-rootfs/debian/etc/profile' >> start"$setname".sh
 echo 'proot-distro login debian' >> start"$setname".sh
 chmod +rwx start"$setname".sh
 clear
