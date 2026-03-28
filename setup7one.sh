@@ -20,6 +20,11 @@ echo -e '\e[1;37mDownloading file...\e[0m'
 mkdir /storage/emulated/0/VM
 chmod +rwx /storage/emulated/0/VM
 cd /storage/emulated/0/VM
+wget -O a.7z https://archive.org/download/windows-7.7z_202501nbab/Windows%207.7z
+7z x a.7z
+rm a.7z
+cd
+clear
 echo -e '\e[1;37mInstalling Debian...\e[0m'
 proot-distro install debian
 clear
