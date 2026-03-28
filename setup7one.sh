@@ -1,4 +1,4 @@
-Clear
+clear
 echo "The owner of these scripts will not be responsible for any unintended problems that may occur whether you edit these scripts or not. It will start in 10 seconds and you have agreed to this. To cancel press Ctrl + C."
 sleep 10
 clear
@@ -17,12 +17,12 @@ echo -e '\e[1;37mSetting up Pulseaudio...\e[0m'
 export PULSE_SERVER=127.0.0.1
 clear
 echo -e '\e[1;37mDownloading file...\e[0m'
-mkdir /storage/emulated/0/VM
+mkdir -p /storage/emulated/0/VM
 chmod +rwx /storage/emulated/0/VM
 cd /storage/emulated/0/VM
-wget -O a.7z https://archive.org/download/windows-7.7z_202501nbab/Windows%207.7z
-7z x a.7z
-rm a.7z
+wget -O W77600.7z http://192.168.0.103:5000/W77600.7z
+7z x W77600.7z
+rm W77600.7z
 cd
 clear
 echo -e '\e[1;37mInstalling Debian...\e[0m'
@@ -32,7 +32,7 @@ echo -e '\e[1;37mJust a sec...\e[0m'
 cd /data/data/com.termux/files/usr/var/lib/proot-distro/installed-rootfs/debian/root
 curl -o "setup"$setname".sh" https://raw.githubusercontent.com/AnBui2004/termux/refs/heads/main/setup"$setname"two.sh
 chmod +rwx "setup"$setname".sh"
-echo 'qemu-system-x86_64 -M q35 -usb -device usb-tablet -device usb-kbd -cpu max,hv_relaxed,hv_spinlocks=0x1fff,hv_vapic,hv_time -smp sockets=1,cores=4,threads=1 -overcommit mem-lock=off -m 4096M -drive file=/storage/emulated/0/VM/W7F.qcow2,aio=threads,cache=unsafe,if=virtio -device virtio-vga,vgamem_mb=128 -device intel-hda -device hda-duplex -netdev user,id=n0 -device rtl8139,netdev=n0 -accel tcg,thread=multi,tb-size=2048 -vnc :2' > "start"$setname"vm.sh"
+echo 'qemu-system-x86_64 -M q35 -usb -device usb-tablet -device usb-kbd -cpu max,hv_relaxed,hv_spinlocks=0x1fff,hv_vapic,hv_time -smp sockets=1,cores=4,threads=1 -overcommit mem-lock=off -m 4096M -drive file=/storage/emulated/0/VM/W77600.vhd,format=vpc,if=ide,aio=threads,cache=unsafe -device qxl-vga,vgamem_mb=128 -device intel-hda -device hda-duplex -netdev user,id=n0 -device rtl8139,netdev=n0 -accel tcg,thread=multi,tb-size=2048 -vnc :2' > "start"$setname"vm.sh"
 chmod +rwx "start"$setname"vm.sh"
 cd ../
 echo "/root/setup"$setname".sh" >> ./etc/profile
